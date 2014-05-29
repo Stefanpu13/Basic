@@ -10,37 +10,95 @@ $(function initialize() {
         mapTypeId: maps.MapTypeId.SATELLITE,
         disableDefaultUI: true
     };
+
+
+    var Menu = (function () {
+        var Menu = function Menu(map, menuPosition) {
+            this.map = map;
+            this.menuPosition = menuPosition || maps.ControlPosition.TOP_CENTER;
+            this.controls = [];
+        }
+
+        Menu.prototype.addControl = function (controlName, controlHandlers) {
+            var control = new Control(controlName, controlHandlers);
+            this.controls.push(control);
+            this.showControl(controlName);
+        }
+
+        Menu.prototype.showControl = function (controlName) {
+            var controls = this.controls.filter(function (control) {
+                return control.name === controlName;
+            }),
+            self = this;
+
+            controls.forEach(function (control) {
+                self.map.controls[self.menuPosition].push(control.container);
+            });
+        }
+
+        Menu.prototype.hideControl = function (controlName) {
+            var controls = this.controls.filter(function (control) {
+                return control.name === controlName;
+            }),
+            self = this;
+
+            controls.forEach(function (control) {
+                self.map.controls[self.menuPosition]
+                    .slice(self.map.controls[self.menuPosition].indexOf(control.container));
+            });
+        }
+
+        return Menu;
+    })();
+
+    // Recieve 'map-canvas' as parameter
     var map = new maps.Map(document.getElementById("map-canvas"),
         mapOptions),
         coordsArray = [],
         polygons = [],
         activePolygon,
         activeMarker,
-        markers = [];
+        markers = [],
+        menu = new Menu(map);
 
-    createControlMenu();
+    menu.addControl('Build block', [{
+        name: 'click', func: function (e) {
+            createBlock();
+        }
+    }]);
+    menu.addControl('DeleteMarker', [{
+        name: 'click', func: function () {
+        }
+    }, {
+        name: 'markerSelected', func: function (e, m) {
+            var x = this;
+        }
+    }])
 
-    maps.event.addListener(map, 'click', drawPolygonPoint);
+    //createControlMenu();
 
+    maps.event.addListener(map, 'click', drawPolygonPoint);   
     
     function createControlMenu() {
-        createControl('Build block', createBlock);
-        createControl('Delete marker', deleteMarker);
+        createControl('Build block', map ,createBlock, true);
+        createControl('Delete marker',map ,deleteMarker, true);
+        createControl('Delete block', map, deleteBlock, true);
+    }
 
-        function createControl(controlText, clickEventHandler) {
-            var container = $(DIV_HTML).addClass('control-container'),
-                control = $(DIV_HTML).addClass('control').html(controlText);
+    function createControl(controlText, map, clickEventHandler, addToMap) {
+        var container = $(DIV_HTML).addClass('control-container'),
+            control = $(DIV_HTML).addClass('control').html(controlText);
 
-            container.append(control);
+        container.append(control);
 
+        if (addToMap) {
             map.controls[maps.ControlPosition.TOP_CENTER].push(container[0]);
-
-            container.click(clickEventHandler);
         }
+
+        container.click(clickEventHandler);
     }
 
     function createBlock() {
-
         if (coordsArray.length >=3) {
             activePolygon = addPolygon(map);
             polygons.push(activePolygon);
@@ -58,6 +116,10 @@ $(function initialize() {
         }
     }
 
+    function deleteBlock(block) {
+
+    }
+
     function drawPolygonPoint(e) {
         var coords = e.latLng;
 
@@ -67,32 +129,6 @@ $(function initialize() {
 
         coordsArray.push(coords);
         markers.push(addMarker(map, coords));
-    }
-
-    function drawPolygon(e) {
-        var coords = e.latLng;
-
-        if (activePolygon) {
-            activePolygon.setOptions({ editable: false });
-        }       
-
-        coordsArray.push(coords);
-        if (coordsArray.length < 3) {
-            markers.push(addMarker(map, coords));
-        }
-
-        else if (coordsArray.length === 3) {
-            removeMarkers();
-            activePolygon = addPolygon(map);
-            polygons.push(activePolygon);
-        } else if (coordsArray.length > 3) {
-            markers.push(addMarker(map, coords));
-
-            coordsArray.length = 0;
-            coordsArray.push(coords);
-            polygons[polygons.length - 1].setOptions({ editable: false });
-
-        }
     }
 
     function addMarker(map, position) {
@@ -110,7 +146,6 @@ $(function initialize() {
         });
         
         maps.event.addListener(marker, 'click', function (e) {
-
             if (activeMarker) {
                 activeMarker.setOptions({
                     icon: {
@@ -133,7 +168,10 @@ $(function initialize() {
                     fillColor: 'yellow'
                 }
             });
-            showControl('DeleteMarker');
+
+            maps.event.trigger(this, 'markerSelected');
+            //$(this).trigger('markerSelected', this);
+           
         });
 
         return marker;
@@ -156,6 +194,8 @@ $(function initialize() {
             activePolygon = this;
             coordsArray.length = 0;
             removeMarkers();
+
+            maps.event.trigger(map, 'polygonSlected', this);
         });
 
         return polygon;
@@ -171,5 +211,25 @@ $(function initialize() {
 
     function showControl(menuName) {
 
+    }
+
+    function Control(controlName, controlHadlers) {
+        var self = this;
+        this.name = controlName;
+        this.controlHandlers = controlHadlers;
+        this.container = createControl();
+
+        controlHadlers.forEach(function(handler){
+            $(self.container).on(handler.name, handler.func);
+        });
+
+        function createControl() {
+            var container = $(DIV_HTML).addClass('control-container'),
+                control = $(DIV_HTML).addClass('control').html(controlName);
+
+            container.append(control);
+
+            return container[0];
+        }
     }
 });
