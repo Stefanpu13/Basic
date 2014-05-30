@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basics", "Basics\Basics.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventModel", "EventModel\EventModel.csproj", "{5DF6A028-01F4-4B5D-885F-1BB1BFC95C31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapBuilderAPI", "MapBuilderAPI\MapBuilderAPI.csproj", "{C1EA0EDC-7BD4-45CF-A646-4CD8B3BAA5E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{5DF6A028-01F4-4B5D-885F-1BB1BFC95C31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DF6A028-01F4-4B5D-885F-1BB1BFC95C31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DF6A028-01F4-4B5D-885F-1BB1BFC95C31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1EA0EDC-7BD4-45CF-A646-4CD8B3BAA5E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1EA0EDC-7BD4-45CF-A646-4CD8B3BAA5E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1EA0EDC-7BD4-45CF-A646-4CD8B3BAA5E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1EA0EDC-7BD4-45CF-A646-4CD8B3BAA5E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

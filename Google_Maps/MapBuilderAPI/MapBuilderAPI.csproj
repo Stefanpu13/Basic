@@ -7,12 +7,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5DF6A028-01F4-4B5D-885F-1BB1BFC95C31}</ProjectGuid>
+    <ProjectGuid>{C1EA0EDC-7BD4-45CF-A646-4CD8B3BAA5E5}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EventModel</RootNamespace>
-    <AssemblyName>EventModel</AssemblyName>
+    <RootNamespace>MapBuilderAPI</RootNamespace>
+    <AssemblyName>MapBuilderAPI</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -57,15 +57,18 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Main.html" />
-    <Content Include="EventModelScript.js" />
+    <None Include="APIScripts\google-maps-3-vs-1-0-vsdoc.js" />
+    <Content Include="APIScripts\google-maps-3-vs-1-0.js" />
+    <Content Include="APIScripts\MapManager.js" />
+    <Content Include="APIScripts\MapBuilder.js" />
+    <Content Include="APIScripts\Menu.js" />
+    <Content Include="Main.js" />
+    <Content Include="Map.html" />
     <Content Include="packages.config" />
-    <None Include="Scripts\google-maps-3-vs-1-0-vsdoc.js" />
-    <Content Include="Scripts\google-maps-3-vs-1-0.js" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />
-    <Content Include="Styles.css" />
+    <Content Include="Styles\Styles.css" />
     <Content Include="Web.config" />
     <Content Include="Scripts\jquery-2.1.1.min.map" />
   </ItemGroup>
@@ -93,9 +96,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>52328</DevelopmentServerPort>
+          <DevelopmentServerPort>51006</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:55961/</IISUrl>
+          <IISUrl>http://localhost:50247/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

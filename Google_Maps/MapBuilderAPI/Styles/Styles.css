@@ -15,7 +15,7 @@ body {
 .control-container {    
     font-weight:bold;    
     border: 3px solid black;
-    min-width:9%;   
+    min-width:6%;   
     max-height:6%;
     margin-right:1%;
     text-align:center;

@@ -10,8 +10,7 @@ $(function initialize() {
         mapTypeId: maps.MapTypeId.SATELLITE,
         disableDefaultUI: true
     };
-
-
+       
     var Menu = (function () {
         var Menu = function Menu(map, menuPosition) {
             this.map = map;
@@ -74,8 +73,6 @@ $(function initialize() {
             var x = this;
         }
     }])
-
-    //createControlMenu();
 
     maps.event.addListener(map, 'click', drawPolygonPoint);   
     
@@ -206,7 +203,6 @@ $(function initialize() {
             m.setMap(null);
         });
         markers.length = 0;
-
     }
 
     function showControl(menuName) {
