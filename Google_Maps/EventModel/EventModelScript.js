@@ -4,7 +4,7 @@
 $(function () {
     var maps = google.maps;
 
-    var observer = (function () {
+    var mediator = (function () {
 
         var subscribers = {};
 
@@ -36,8 +36,9 @@ $(function () {
                 eventSubscribers.forEach(function (subscr) {
                     maps.event.trigger(subscr, eventType, publisher);
                 });
+            } else {
+                throw Error('No subscirbers for ' + eventType);
             }
-
         };
 
         return {
@@ -52,8 +53,10 @@ $(function () {
         function addButton(controlName) {
             var container = createControl(controlName);
 
-            //maps.event.addListener(container, 'markerSelected', showButton);
-            observer.subscribe(container, 'markerSelected', showButton);
+            maps.event.addListener(container, 'click', function () {
+                mediator.publish(this, 'deleteMarker');
+            });
+            mediator.subscribe(container, 'markerSelected', showButton);
 
 
             function createControl(controlName) {
@@ -96,8 +99,14 @@ $(function () {
             });
 
             maps.event.addListener(marker, 'click', function () {           
-                observer.publish(this, 'markerSelected');
+                mediator.publish(this, 'markerSelected');
             });
+
+            mediator.subscribe(marker, 'deleteMarker', deleteMarker)
+        }
+
+        function deleteMarker() {
+            this.setMap(null);
         }
 
         function selectMarker(marker) {
@@ -130,9 +139,5 @@ $(function () {
 
     maps.event.addListener(map, 'click', mapBuilder.addMarker); 
     
-    observer.subscribe(map, 'markerSelected', mapBuilder.selectMarker);
-
-    //maps.event.addListener(map, 'markerSelected', mapBuilder.selectMarker);   
-
-    
+    mediator.subscribe(map, 'markerSelected', mapBuilder.selectMarker);
 });

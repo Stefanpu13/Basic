@@ -21,8 +21,10 @@ var Menu = (function (maps) {
             return container[0];
         }
 
+        // Depending on controlType different creation methods will be called and
+        // menu items will be created. 
         function create(controlType, controlName) {
-            // later 'controlType' will be used to create div based on predifined type
+            // later 'controlType' will be used to create control form based on predifined type.
             return createButtonControl(controlName);
         }
 
@@ -38,19 +40,8 @@ var Menu = (function (maps) {
 
     Menu.prototype.addControl = function (controlType, controlName, controlHandlers) {
         var control = new Control(controlType, controlName, controlHandlers);
-        this.controls.push(control);
-        this.showControl(controlName);
-    };
-
-    Menu.prototype.showControl = function (controlName) {
-        var controls = this.controls.filter(function (control) {
-            return control.name === controlName;
-        }),
-        map = this.map, self = this;
-
-        controls.forEach(function (control) {
-            map.controls[self.menuPosition].push(control.container);
-        });
+        this.controls.push(control);        
+        this.map.controls[this.menuPosition].push(control.container);
     };
 
     return Menu;

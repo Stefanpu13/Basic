@@ -1,6 +1,7 @@
 ﻿var MapBuilder = (function (maps) {
 
-    var selectedMarkerOptions = {
+    var call = Function.prototype.call,
+        selectedMarkerOptions = {
         icon: {
             path: maps.SymbolPath.CIRCLE,
             fillOpacity: 1,
@@ -25,21 +26,10 @@
         return markerOptions;
     }
 
-    MapBuilder.prototype.getPolygonPath = function () {
-        return this.markers.map(function (m) { return m.getPosition(); });
-    };
+    function createMarker(coords) {
 
-    MapBuilder.prototype.removeMarkers = function removeMarkers() {
-        this.markers.map(function (m) {
-            m.setMap(null);
-        });
-        this.markers.length = 0;
-    };
-
-    MapBuilder.prototype.addMarker = function addMarker(markerOptions) {
-        markerOptions.map = this.map;
-
-        var marker = new maps.Marker(markerOptions || this.defaultMarkerOptions),
+        var markerOptions = this.defaultMarkerOptions;
+            marker = new maps.Marker((markerOptions.position = )),
             self = this;
 
         this.markers.push(marker);
@@ -62,6 +52,54 @@
         });
 
         return marker;
+    }
+
+    MapBuilder.prototype.getPolygonPath = function () {
+        return this.markers.map(function (m) { return m.getPosition(); });
+    };
+
+    MapBuilder.prototype.removeMarkers = function removeMarkers() {
+        this.markers.map(function (m) {
+            m.setMap(null);
+        });
+        this.markers.length = 0;
+    };
+
+    MapBuilder.prototype.addMarker = function addMarker(e) {
+
+        var coords = e.latLng;
+
+        if (this.activePolygon) {
+            this.activePolygon.setOptions({ editable: false });
+            this.activePolygon = null;
+        }
+               
+        createMarker.call(this, coords);
+        //markerOptions.map = this.map;
+
+        //var marker = new maps.Marker(this.defaultMarkerOptions),
+        //    self = this;
+
+        //this.markers.push(marker);
+
+        //maps.event.addListener(marker, 'click', function (e) {
+        //    if (self.activeMarker) {
+        //        self.activeMarker.setOptions(selectedMarkerOptions);
+        //    }
+
+        //    self.activeMarker = this;
+        //    this.setOptions({
+        //        icon: {
+        //            path: google.maps.SymbolPath.CIRCLE,
+        //            fillOpacity: 1,
+        //            strokeWeight: 1,
+        //            scale: 12,
+        //            fillColor: 'yellow'
+        //        }
+        //    });
+        //});
+
+        //return marker;
     };
 
     MapBuilder.prototype.removeMarker = function removeMarker() {
@@ -102,7 +140,9 @@
         }
         
         this.activePolygon = null;
-    }
+    }  
+
+    
 
     return MapBuilder;
 })(google.maps);

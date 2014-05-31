@@ -33,54 +33,8 @@ var mapManager = (function () {
 
     
     function drawPolygonPoint(e) {
-        var coords = e.latLng;
-
-        if (mapBuilder.activePolygon) {
-            mapBuilder.activePolygon.setOptions({ editable: false });
-            mapBuilder.activePolygon = null;
-        }
-       
-        defaultMarkerOptions.position = coords;        
-        //mapBuilder.markers.push(addMarker(defaultMarkerOptions));
-        mapBuilder.addMarker(defaultMarkerOptions);
-
-    }    
-
-    function addMarker(map, position) {
-        var marker = new maps.Marker({
-            map: map,
-            position: position,
-            icon: defaultMarkerIcon,
-            draggable: true
-        });
-
-        maps.event.addListener(marker, 'click', function (e) {
-            if (mapBuilder.activeMarker) {
-                mapBuilder.activeMarker.setOptions({
-                    icon: {
-                        path: maps.SymbolPath.CIRCLE,
-                        fillOpacity: 1,
-                        strokeWeight: 1,
-                        scale: 7,
-                        fillColor: 'yellow'
-                    }
-                });
-            }
-
-            mapBuilder.activeMarker = this;
-            this.setOptions({
-                icon: {
-                    path: google.maps.SymbolPath.CIRCLE,
-                    fillOpacity: 1,
-                    strokeWeight: 1,
-                    scale: 12,
-                    fillColor: 'yellow'
-                }
-            });
-        });
-
-        return marker;
-    }
+        mapBuilder.addMarker(e);
+    } 
 
     function createBlock() {
         if (mapBuilder.markers.length >= 3) {
@@ -92,7 +46,7 @@ var mapManager = (function () {
         mapBuilder.removePolygon();
     }
 
-    function deleteMarker() {
+    function removeMarker() {
         mapBuilder.removeMarker();
     }
 
@@ -105,7 +59,7 @@ var mapManager = (function () {
         menu = new Menu(map);
 
         menu.addControl('button', 'Build block', [{ type: 'click', func: createBlock }]);
-        menu.addControl('button', 'Delete Marker', [{ type: 'click', func: deleteMarker }]);
+        menu.addControl('button', 'Delete Marker', [{ type: 'click', func: removeMarker }]);
         menu.addControl('button', 'Delete Block', [{ type: 'click', func: deleteBlock }]);
 
         return menu;
