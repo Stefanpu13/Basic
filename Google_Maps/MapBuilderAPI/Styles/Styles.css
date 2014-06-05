@@ -19,12 +19,17 @@ body {
     max-height:6%;
     margin-right:1%;
     text-align:center;
-    background-color:#b4aaaa;
+    background-color:#b4aaaa;    
 }
 
 .control {
     font-size:13px;
     
+    
     color:black;
     margin:10%;
+}
+
+#info-window-container {
+    background-color:blue;
 }

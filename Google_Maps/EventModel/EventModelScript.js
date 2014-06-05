@@ -16,7 +16,7 @@ $(function () {
             }
 
             subscribers[eventType].push(subscriber);
-        };
+        }
 
         function unsubscribe(subscriber, eventType) {
             var subscriberIndex;
@@ -27,9 +27,9 @@ $(function () {
                     subscribers[eventType].slice(subscriberIndex, 1);
                 }
             }
-        };
+        }
 
-        function publish(publisher, eventType) {
+        function publish(eventType, publisher) {
             var eventSubscribers = subscribers[eventType];
 
             if (eventSubscribers) {
@@ -39,13 +39,12 @@ $(function () {
             } else {
                 throw Error('No subscirbers for ' + eventType);
             }
-        };
-
+        }
         return {
             subscribe: subscribe,
             unsubscribe: unsubscribe,
             publish: publish
-        }
+        };
     })();
 
     var menu = (function () {
@@ -53,10 +52,15 @@ $(function () {
         function addButton(controlName) {
             var container = createControl(controlName);
 
+            $(container).hide();
+            map.controls[maps.ControlPosition.TOP_CENTER].push(container);
+
             maps.event.addListener(container, 'click', function () {
-                mediator.publish(this, 'deleteMarker');
+                mediator.publish('deleteMarker', this);
             });
+
             mediator.subscribe(container, 'markerSelected', showButton);
+            mediator.subscribe(container, 'hideButton', hideButton);
 
 
             function createControl(controlName) {
@@ -72,13 +76,17 @@ $(function () {
         }
 
         function showButton(marker) {
-            map.controls[maps.ControlPosition.TOP_CENTER].push(this);
+            $(this).show();
+            
+        }
+
+        function hideButton() {
+            $(this).hide();
         }
 
         return {
-            addButton: addButton,
-            showButton: showButton
-        }
+            addButton: addButton          
+        };
     })();
 
     var mapBuilder = (function () {
@@ -99,10 +107,12 @@ $(function () {
             });
 
             maps.event.addListener(marker, 'click', function () {           
-                mediator.publish(this, 'markerSelected');
+                mediator.publish('markerSelected', this);
             });
 
-            mediator.subscribe(marker, 'deleteMarker', deleteMarker)
+            mediator.publish('hideButton', marker);
+
+            mediator.subscribe(marker, 'deleteMarker', deleteMarker);
         }
 
         function deleteMarker() {
@@ -124,7 +134,7 @@ $(function () {
         return {
             addMarker: addMarker,
             selectMarker: selectMarker
-        }
+        };
     })();    
 
     var DIV_HTML = '<div></div>',        

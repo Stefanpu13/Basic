@@ -36,7 +36,7 @@ var Menu = (function (maps) {
         this.map = map;
         this.menuPosition = menuPosition || maps.ControlPosition.TOP_CENTER;
         this.controls = [];
-    };
+    }
 
     Menu.prototype.addControl = function (controlType, controlName, controlHandlers) {
         var control = new Control(controlType, controlName, controlHandlers);

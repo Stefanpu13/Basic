@@ -1,0 +1,18 @@
+﻿body {
+    height: 100%;
+    width:100%;
+    margin: 0;
+    padding: 0;
+}
+html { 
+      height: 100%; 
+  }
+#map-canvas {
+     height: 100%;
+}
+#info-window-container {
+    width:150px;
+    height:250px;
+}
+
+

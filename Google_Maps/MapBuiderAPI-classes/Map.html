@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link href="Styles/Styles.css" rel="stylesheet" />
+
+    <!--Request the current release version of the google maps API-->
+    <script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false&region=GB">
+    </script>
+    <script src="Scripts/jquery-2.1.1.js"></script>
+     <script src="Scripts/jquery-ui-1.10.4.js"></script>
+    <script src="APIScripts/Menu.js"></script>
+    <script src="APIScripts/MapBuilder.js"></script>
+    <script src="APIScripts/MapManager.js"></script>
+    <script src="Main.js"></script>
+
+</head>
+<body>
+    <!--<div id="map-disabler">Some other div</div>-->
+    <div id="dialog-form">
+        <p id="error-content">Fill in block name and description</p>
+        <form>
+            <fieldset>
+                <!--<legend>Fill in block info</legend>-->
+                <label for="name">Block Name</label>
+                <input type="text" name="name" id="name" class="blockInfo ui-widget-content ui-corner-all">
+                <label for="descritpion">Block Description</label>
+                <textarea name="descritpion" id="descritpion" class="blockInfo ui-widget-content ui-corner-all"></textarea>
+            </fieldset>
+        </form>
+    </div>
+
+    <!--<div id="text">Some text</div>-->
+    <div id="map-canvas" />
+    <!--No content should come after map div!!!-->
+</body>
+</html>
